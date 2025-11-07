@@ -71,8 +71,12 @@ erDiagram
 | user_id | UUID | Primary Key, Default: gen_random_uuid() | Unique identifier for each user |
 | username | VARCHAR(50) | Unique, Not Null | User's display name |
 | email | VARCHAR(255) | Unique, Not Null | User's email address |
-| password_hash | VARCHAR(255) | Not Null | Encrypted password |
+| google_id | VARCHAR(255) | Unique, Optional | Google OAuth identifier |
+| profile_picture | VARCHAR(500) | Optional | User's profile picture URL |
+| jwt_token | TEXT | Optional | JWT token string |
+| jwt_expires_at | TIMESTAMP | Optional | JWT token expiration timestamp |
 | created_at | TIMESTAMP | Default: CURRENT_TIMESTAMP | Account creation timestamp |
+| updated_at | TIMESTAMP | Default: CURRENT_TIMESTAMP | Last profile update time |
 
 ---
 
