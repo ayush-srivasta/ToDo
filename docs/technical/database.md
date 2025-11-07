@@ -3,55 +3,59 @@
 erDiagram
     users {
         UUID user_id PK
-        VARCHAR username UK "NOT NULL"
-        VARCHAR email UK "NOT NULL"
-        VARCHAR password_hash "NOT NULL"
-        TIMESTAMP created_at "DEFAULT CURRENT_TIMESTAMP"
+        VARCHAR username UK
+        VARCHAR email UK
+        VARCHAR google_id UK
+        VARCHAR profile_picture
+        TEXT jwt_token
+        TIMESTAMP jwt_expires_at
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
     }
 
     user_groups {
         UUID group_id PK
-        VARCHAR group_name "NOT NULL"
+        VARCHAR group_name
         TEXT description
-        UUID created_by FK "NOT NULL"
-        TIMESTAMP created_at "DEFAULT CURRENT_TIMESTAMP"
+        UUID created_by FK
+        TIMESTAMP created_at
     }
 
     group_members {
         UUID group_member_id PK
-        UUID group_id FK "NOT NULL"
-        UUID user_id FK "NOT NULL"
-        VARCHAR role "NOT NULL, DEFAULT 'member'"
-        TIMESTAMP joined_at "DEFAULT CURRENT_TIMESTAMP"
+        UUID group_id FK
+        UUID user_id FK
+        VARCHAR role
+        TIMESTAMP joined_at
     }
 
     lists {
         UUID list_id PK
-        UUID user_id FK "NULL for group lists"
-        UUID group_id FK "NULL for personal lists"
-        UUID created_by FK "NOT NULL"
-        VARCHAR list_type "NOT NULL"
-        VARCHAR title "NOT NULL"
+        UUID user_id FK
+        UUID group_id FK
+        UUID created_by FK
+        VARCHAR list_type
+        VARCHAR title
         TEXT description
-        TIMESTAMP created_at "DEFAULT CURRENT_TIMESTAMP"
-        TIMESTAMP updated_at "DEFAULT CURRENT_TIMESTAMP"
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
     }
 
     items {
         UUID item_id PK
-        UUID list_id FK "NOT NULL"
-        VARCHAR title "NOT NULL"
-        BOOLEAN is_completed "DEFAULT false"
+        UUID list_id FK
+        VARCHAR title
+        BOOLEAN is_completed
         TIMESTAMP due_date
-        INTEGER priority "DEFAULT 0"
-        UUID created_by FK "NOT NULL"
-        JSONB attributes "DEFAULT '{}', NOT NULL"
-        JSONB comments "DEFAULT '[]', NOT NULL"
-        TIMESTAMP created_at "DEFAULT CURRENT_TIMESTAMP"
-        TIMESTAMP updated_at "DEFAULT CURRENT_TIMESTAMP"
+        INTEGER priority
+        UUID created_by FK
+        JSONB attributes
+        JSONB comments
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
     }
 
-    %% Relationships
+%% Relationships
     users ||--o{ user_groups : creates
     users ||--o{ group_members : "is_member_of"
     user_groups ||--o{ group_members : has
