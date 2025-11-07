@@ -1,4 +1,3 @@
-# Database Design
 ```mermaid
 erDiagram
     users {
@@ -50,12 +49,10 @@ erDiagram
         INTEGER priority
         UUID created_by FK
         JSONB attributes
-        JSONB comments
         TIMESTAMP created_at
         TIMESTAMP updated_at
     }
 
-%% Relationships
     users ||--o{ user_groups : creates
     users ||--o{ group_members : "is_member_of"
     user_groups ||--o{ group_members : has
@@ -105,7 +102,7 @@ erDiagram
 | user_id | UUID | Foreign Key → users(user_id), Not Null, ON DELETE CASCADE | Reference to the user |
 | role | VARCHAR(20) | Default: 'member', Not Null | Role in group (owner/admin/member) |
 | joined_at | TIMESTAMP | Default: CURRENT_TIMESTAMP | When user joined the group |
-| Unique_Constraint | - | UNIQUE(group_id, user_id) | Prevents duplicate memberships |
+| Table Constraint | - | UNIQUE(group_id, user_id) | Prevents duplicate memberships |
 
 ---
 
@@ -122,7 +119,6 @@ erDiagram
 | description | TEXT | Optional | Description or purpose of the list |
 | created_at | TIMESTAMP | Default: CURRENT_TIMESTAMP | When the list was created |
 | updated_at | TIMESTAMP | Default: CURRENT_TIMESTAMP | Last update time |
-| CHECK_Constraint | - | Either user_id or group_id must be set, not both | Ownership constraint |
 
 ---
 
@@ -138,20 +134,33 @@ erDiagram
 | priority | INTEGER | Default: 0 | Priority level (0=low, 1=medium, 2=high) |
 | created_by | UUID | Foreign Key → users(user_id), Not Null | User who added the item |
 | attributes | JSONB | Default: '{}', Not Null | Flexible attributes (quantity, unit, brand, etc.) |
-| comments | JSONB | Default: '[]', Not Null | Array of comments with user_id and text |
 | created_at | TIMESTAMP | Default: CURRENT_TIMESTAMP | When item was created |
 | updated_at | TIMESTAMP | Default: CURRENT_TIMESTAMP | Last update time |
 
 ---
 
-## JSON Structure Examples
+## Foreign Key Relationships
 
-### items.attributes (JSONB)
-```json
-{
-  "quantity": 2,
-  "unit": "kg",
-  "category": "Fruits",
-  "brand": "Fresh Farms",
-  "price": 150
-}
+| From Table | From Column | To Table | To Column | Relationship Type |
+|------------|-------------|----------|-----------|-------------------|
+| user_groups | created_by | users | user_id | Many-to-One |
+| group_members | group_id | user_groups | group_id | Many-to-One |
+| group_members | user_id | users | user_id | Many-to-One |
+| lists | user_id | users | user_id | Many-to-One (optional) |
+| lists | group_id | user_groups | group_id | Many-to-One (optional) |
+| lists | created_by | users | user_id | Many-to-One |
+| items | list_id | lists | list_id | Many-to-One |
+| items | created_by | users | user_id | Many-to-One |
+
+---
+
+## Key Constraints
+
+1. **Group Membership Uniqueness**: A user can only be a member of a group once
+2. **Cascade Deletes**:
+    - Deleting a group removes all group_members
+    - Deleting a list removes all items
+    - Deleting a user removes their group memberships
+
+---
+
