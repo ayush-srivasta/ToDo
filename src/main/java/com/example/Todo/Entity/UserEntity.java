@@ -62,4 +62,28 @@ public class UserEntity {
 
     public Instant getCreatedAt() { return createdAt; }
     public Instant getUpdatedAt() { return updatedAt; }
+
+    public void setJwtToken(String jwtToken) {
+        this.jwtToken = jwtToken;
+    }
+
+    public void setJwtExpiresAt(Instant jwtExpiresAt) {
+        this.jwtExpiresAt = jwtExpiresAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setCreatedLists(List<ListEntity> createdLists) {
+        this.createdLists = createdLists;
+    }
+
+    public void setCreatedGroups(List<UserGroupEntity> createdGroups) {
+        this.createdGroups = createdGroups;
+    }
 }

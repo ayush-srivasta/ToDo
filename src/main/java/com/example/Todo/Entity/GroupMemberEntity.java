@@ -38,4 +38,5 @@ public class GroupMemberEntity {
     public void setUser(UserEntity user) { this.user = user; }
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
+
 }

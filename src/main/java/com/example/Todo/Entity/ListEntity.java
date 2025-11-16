@@ -52,4 +52,36 @@ public class ListEntity {
     public UserEntity getCreatedBy() { return createdBy; }
     public void setCreatedBy(UserEntity createdBy) { this.createdBy = createdBy; }
     public List<ItemEntity> getItems() { return items; }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+    public UserGroupEntity getGroup() {
+        return group;
+    }
+
+    public void setGroup(UserGroupEntity group) {
+        this.group = group;
+    }
 }

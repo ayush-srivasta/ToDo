@@ -33,6 +33,19 @@ public class UserGroupEntity {
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ListEntity> lists = new ArrayList<>();
 
+    public UserGroupEntity() {
+    }
+
+    public UserGroupEntity(UUID groupId, String groupName, String description, UserEntity createdBy, Instant createdAt, List<GroupMemberEntity> members, List<ListEntity> lists) {
+        this.groupId = groupId;
+        this.groupName = groupName;
+        this.description = description;
+        this.createdBy = createdBy;
+        this.createdAt = createdAt;
+        this.members = members;
+        this.lists = lists;
+    }
+
     // Getters & Setters
     public UUID getGroupId() { return groupId; }
     public String getGroupName() { return groupName; }
@@ -41,5 +54,10 @@ public class UserGroupEntity {
     public void setDescription(String description) { this.description = description; }
     public UserEntity getCreatedBy() { return createdBy; }
     public void setCreatedBy(UserEntity createdBy) { this.createdBy = createdBy; }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
 }
 
